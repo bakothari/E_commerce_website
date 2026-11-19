@@ -18,11 +18,20 @@ const emailTemplateRoutes = require("./routes/emailRoutes");
 const path = require("path");
 const app = express();
 app.use(express.json());
+const allowedOrigins = [
+    "https://e-commerce-website-e852.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:3000"
+];
 app.use(cors({
-    origin: [
-        process.env.FRONTEND_URL,
-        process.env.ADMIN_URL
-    ],
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            console.log("Blocked by CORS:", origin);
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true
 }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
