@@ -1,0 +1,267 @@
+/* Dashboard overview page. Everything is inside .dash-home so it cannot
+   change the other pages. Colours come from Dashboard.css (--primary etc). */
+
+.dash-home {
+  --p: var(--primary, #4f46e5);
+  --surface-c: var(--surface, #ffffff);
+  --text-c: var(--text, #1f2937);
+  --muted-c: var(--muted, #6b7280);
+  --border-c: var(--border, #e5e7eb);
+
+  color: var(--text-c);
+}
+
+/* ============ heading ============ */
+.dash-home .dash-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.dash-home .dash-head h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.dash-home .dash-head p {
+  margin: 4px 0 0;
+  color: var(--muted-c);
+  font-size: 13px;
+}
+
+.dash-home .dash-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border: 1px solid var(--border-c);
+  border-radius: 10px;
+  background: var(--surface-c);
+  color: var(--text-c);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.dash-home .dash-refresh:hover:not(:disabled) {
+  background: var(--p);
+  border-color: var(--p);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.dash-home .dash-refresh:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.dash-home .spin {
+  animation: dhSpin 0.8s linear infinite;
+}
+
+/* ============ cards ============ */
+.dash-home .dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 18px;
+}
+
+.dash-home .dash-card {
+  --c: var(--p);
+  --bg: #eef2ff;
+
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: 20px;
+  background: var(--surface-c);
+  border: 1px solid var(--border-c);
+  border-radius: 18px;
+  color: inherit;
+  text-decoration: none;
+  animation: dhUp 0.45s ease both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* coloured line at the top that grows on hover */
+.dash-home .dash-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--c);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.dash-home .dash-card:hover,
+.dash-home .dash-card:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--c);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.dash-home .dash-card:hover::before,
+.dash-home .dash-card:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.dash-home .dash-card:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+.dash-home .dash-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dash-home .dash-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--c);
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.dash-home .dash-card:hover .dash-icon {
+  background: var(--c);
+  color: #fff;
+  transform: rotate(-8deg) scale(1.1);
+}
+
+.dash-home .dash-arrow {
+  color: var(--muted-c);
+  opacity: 0;
+  transform: translate(-6px, 6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease;
+}
+
+.dash-home .dash-card:hover .dash-arrow,
+.dash-home .dash-card:focus-visible .dash-arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+  color: var(--c);
+}
+
+.dash-home .dash-number {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.dash-home .dash-label {
+  margin: 4px 0 14px;
+  color: var(--muted-c);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ============ small status chips ============ */
+.dash-home .dash-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 24px;
+}
+
+.dash-home .chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dash-home .chip-green { background: #dcfce7; color: #166534; }
+.dash-home .chip-red   { background: #fee2e2; color: #991b1b; }
+.dash-home .chip-amber { background: #fef3c7; color: #92400e; }
+
+/* ============ loading placeholders ============ */
+.dash-home .dash-skeleton {
+  height: 178px;
+  pointer-events: none;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: dhShimmer 1.2s linear infinite;
+}
+
+.dash-home .dash-skeleton::before {
+  display: none;
+}
+
+/* ============ message + empty state ============ */
+.dash-home .dash-toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  z-index: 9999;
+  transform: translateX(-50%);
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: #dc2626;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: dhUp 0.25s ease both;
+}
+
+.dash-home .dash-empty {
+  padding: 48px 16px;
+  border: 1px dashed var(--border-c);
+  border-radius: 16px;
+  background: var(--surface-c);
+  color: var(--muted-c);
+  text-align: center;
+}
+
+/* ============ animations ============ */
+@keyframes dhUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dhSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes dhShimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+@media (max-width: 520px) {
+  .dash-home .dash-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .dash-home .dash-card {
+    padding: 14px;
+  }
+
+  .dash-home .dash-number {
+    font-size: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-home *,
+  .dash-home *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}

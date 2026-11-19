@@ -1,0 +1,475 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+    --ink: #17231f;
+    --muted: #66726d;
+    --paper: #fbfaf7;
+    --line: #d9ddd8;
+    --forest: #1f4037;
+    --forest-dark: #173129;
+    --sand: #e9c27a;
+    --danger: #c0392b;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* hide scrollbars (scrolling still works) */
+html,
+body,
+.form-panel {
+    scrollbar-width: none;      /* Firefox */
+    -ms-overflow-style: none;   /* old Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.form-panel::-webkit-scrollbar {
+    display: none;              /* Chrome, Edge, Safari */
+}
+
+.signup-page {
+    height: 100vh;
+    height: 100dvh;
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    font-family: "DM Sans", system-ui, sans-serif;
+    color: var(--ink);
+}
+
+/* ================= left brand panel ================= */
+.brand-panel {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 56px;
+    background: var(--forest);
+    color: #f3efe6;
+    margin: 0;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--sand);
+    position: relative;
+    z-index: 1;
+}
+
+.brand-copy {
+    position: relative;
+    z-index: 1;
+    max-width: 400px;
+}
+
+.brand-copy h2 {
+    margin: 0 0 14px;
+    font-size: 2.3rem;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.brand-copy p {
+    margin: 0 0 32px;
+    color: #c5d0ca;
+    line-height: 1.6;
+}
+
+.brand-copy ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.brand-copy li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+}
+
+.brand-copy li svg {
+    color: var(--sand);
+    flex-shrink: 0;
+}
+
+/* decorative rings */
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(233, 194, 122, 0.22);
+    pointer-events: none;
+}
+
+.ring-1 {
+    width: 520px;
+    height: 520px;
+    right: -220px;
+    bottom: -220px;
+}
+
+.ring-2 {
+    width: 340px;
+    height: 340px;
+    right: -130px;
+    bottom: -130px;
+}
+
+/* ================= right form panel ================= */
+.form-panel {
+    display: flex;
+    overflow-y: auto;
+    padding: 32px;
+    background: var(--paper);
+}
+
+.form-inner {
+    width: 100%;
+    max-width: 420px;
+    margin: auto; /* centers the form without clipping when it is taller than the screen */
+}
+
+.form-inner h1 {
+    margin: 0;
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    margin: 6px 0 28px;
+    color: var(--muted);
+}
+
+.subtitle a {
+    color: var(--forest);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ---------- fields ---------- */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field > label {
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.input-wrap {
+    position: relative;
+}
+
+.field-icon {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    color: var(--muted);
+    pointer-events: none;
+}
+
+.input-wrap input,
+.input-wrap textarea {
+    width: 100%;
+    padding: 13px 44px 13px 42px;
+    font: inherit;
+    font-size: 0.97rem;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input-wrap textarea {
+    resize: vertical;
+    min-height: 84px;
+}
+
+.input-wrap input::placeholder,
+.input-wrap textarea::placeholder {
+    color: #a3aba7;
+}
+
+.input-wrap input:focus,
+.input-wrap textarea:focus {
+    border-color: var(--forest);
+    box-shadow: 0 0 0 3px rgba(31, 64, 55, 0.14);
+}
+
+.input-wrap:focus-within .field-icon {
+    color: var(--forest);
+}
+
+.toggle-btn {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.toggle-btn:hover {
+    color: var(--forest);
+    background: #eef1ee;
+}
+
+/* ---------- label row + forgot link ---------- */
+.label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.forgot-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--forest);
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: var(--forest);
+}
+
+/* ---------- gender segmented control ---------- */
+.segmented {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 4px;
+    gap: 4px;
+    background: #eef1ee;
+    border-radius: 8px;
+}
+
+.segmented button {
+    padding: 9px 0;
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.segmented button:hover {
+    color: var(--ink);
+}
+
+.segmented button.active {
+    background: var(--forest);
+    color: #fff;
+}
+
+.segmented button:focus-visible {
+    outline: 2px solid var(--forest);
+    outline-offset: 2px;
+}
+
+/* ---------- errors ---------- */
+.has-error .input-wrap input,
+.has-error .input-wrap textarea {
+    border-color: var(--danger);
+}
+
+.has-error .input-wrap input:focus,
+.has-error .input-wrap textarea:focus {
+    box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.15);
+}
+
+.has-error .field-icon {
+    color: var(--danger);
+}
+
+.has-error .segmented {
+    outline: 1px solid var(--danger);
+}
+
+.error-text {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--danger);
+    font-size: 0.82rem;
+}
+
+/* ---------- submit ---------- */
+.submit-btn {
+    margin-top: 8px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--forest);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: var(--forest-dark);
+}
+
+.submit-btn:focus-visible {
+    outline: 3px solid var(--sand);
+    outline-offset: 2px;
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spin {
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spin {
+        animation: none;
+    }
+}
+
+/* ================= responsive ================= */
+@media (max-width: 900px) {
+    .signup-page {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .brand-panel {
+        padding: 28px 24px;
+        gap: 18px;
+    }
+
+    .brand-copy h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+
+    .brand-copy p,
+    .brand-copy ul,
+    .ring {
+        display: none;
+    }
+
+    .form-panel {
+        overflow: visible;
+        padding: 32px 20px 48px;
+    }
+}
+
+/* ================= OTP page ================= */
+.input-wrap input.otp-input {
+    font-weight: 600;
+    letter-spacing: 0.3em;
+}
+
+.input-wrap input.otp-input::placeholder {
+    font-weight: 400;
+    letter-spacing: normal;
+}
+
+.resend-row {
+    margin: 22px 0 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+.resend-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--forest);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.resend-btn:hover:not(:disabled) {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.resend-btn:disabled {
+    color: var(--muted);
+    cursor: not-allowed;
+}
+
+.resend-row a {
+    margin-left: 4px;
+    color: var(--forest);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.resend-row a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
