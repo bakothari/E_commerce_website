@@ -186,7 +186,7 @@ export default function ProductView({ product }: { product: any }) {
 
         toast.success("Added to wishlist", {
             icon: <Heart className="h-5 w-5 fill-pink-500 text-pink-500" />,
-            progressStyle: { background: "#ec4899" },
+            progressClassName: "bg-pink-500!",
         });
     }
 
