@@ -1,26 +1,14 @@
 import { useEffect, useState } from "react";
-
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { ClassicEditor } from "ckeditor5";
-import "ckeditor5/ckeditor5.css";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Banner.css";
-import api from "./api/axios"
+import api from "./api/axios";
 
 const API = "/admin/banners";
 const HEIGHTS = { small: 100, medium: 160, big: 240, hero: 320 };
-import {
-    ClassicEditor,
-    Essentials,
-    Paragraph,
-    Bold,
-    Italic,
-    Heading,
-    Link,
-    List,
-    BlockQuote
-} from "ckeditor5";
+
 const empty = {
     name: "",
     type: "text",
@@ -34,6 +22,16 @@ const empty = {
     startDate: "",
     endDate: "",
     status: "active",
+};
+
+const QUILL_MODULES = {
+    toolbar: [
+        [{ header: [1, 2, 3, false] }],
+        ["bold", "italic", "link"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["blockquote"],
+        ["clean"],
+    ],
 };
 
 const authHeader = () => ({
@@ -58,18 +56,19 @@ export default function Banners() {
     const [banners, setBanners] = useState([]);
     const [saving, setSaving] = useState(false);
     const [uploading, setUploading] = useState(false);
-    const [editorReady, setEditorReady] = useState(false);
     const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
     async function load() {
         try {
             const { data } = await api.get(API, authHeader());
-            setBanners(data.banners||[]);
+            setBanners(data.banners || []);
         } catch (err) {
             toast.error(err.response?.data?.message || "Could not load banners");
         }
     }
-    useEffect(() => { load(); }, []);
+    useEffect(() => {
+        load();
+    }, []);
 
     async function submit(e) {
         e.preventDefault();
@@ -134,9 +133,7 @@ export default function Banners() {
         setEditingId(null);
         setForm(empty);
     }
-    useEffect(() => {
-        setEditorReady(true);
-    }, []);
+
     async function remove(b) {
         if (!window.confirm(`Delete "${b.name}"?`)) return;
         try {
@@ -215,47 +212,29 @@ export default function Banners() {
                 )}
 
                 <label>{form.type === "image" ? "Text on image (optional)" : "Banner text"}</label>
-                {editorReady && (
-                    <CKEditor
-                        key={editingId || "new"}
-                        editor={ClassicEditor}
-                        data={form.content}
-                        config={{
-                            licenseKey: "GPL",
-                            plugins: [
-                                Essentials,
-                                Paragraph,
-                                Bold,
-                                Italic,
-                                Heading,
-                                Link,
-                                List,
-                                BlockQuote
-                            ],
-                            toolbar: [
-                                "heading", "|",
-                                "bold",
-                                "italic",
-                                "link", "|",
-                                "bulletedList",
-                                "numberedList",
-                                "blockQuote", "|",
-                                "undo",
-                                "redo"
-                            ]
-                        }}
-                        onChange={(_, editor) => set("content", editor.getData())}
-                    />
-                )}
+                <ReactQuill
+                    theme="snow"
+                    value={form.content}
+                    onChange={(value) => set("content", value)}
+                    modules={QUILL_MODULES}
+                />
 
                 <div className="bn-grid">
                     <div>
                         <label>Background</label>
-                        <input type="color" value={form.backgroundColor} onChange={(e) => set("backgroundColor", e.target.value)} />
+                        <input
+                            type="color"
+                            value={form.backgroundColor}
+                            onChange={(e) => set("backgroundColor", e.target.value)}
+                        />
                     </div>
                     <div>
                         <label>Text colour</label>
-                        <input type="color" value={form.textColor} onChange={(e) => set("textColor", e.target.value)} />
+                        <input
+                            type="color"
+                            value={form.textColor}
+                            onChange={(e) => set("textColor", e.target.value)}
+                        />
                     </div>
                     <div>
                         <label>Alignment</label>
@@ -274,11 +253,19 @@ export default function Banners() {
                     </div>
                     <div>
                         <label>Show from (optional)</label>
-                        <input type="date" value={form.startDate} onChange={(e) => set("startDate", e.target.value)} />
+                        <input
+                            type="date"
+                            value={form.startDate}
+                            onChange={(e) => set("startDate", e.target.value)}
+                        />
                     </div>
                     <div>
                         <label>Hide after (optional)</label>
-                        <input type="date" value={form.endDate} onChange={(e) => set("endDate", e.target.value)} />
+                        <input
+                            type="date"
+                            value={form.endDate}
+                            onChange={(e) => set("endDate", e.target.value)}
+                        />
                     </div>
                 </div>
 
@@ -298,7 +285,9 @@ export default function Banners() {
                         {saving ? "Saving..." : editingId ? "Update banner" : "Create banner"}
                     </button>
                     {editingId && (
-                        <button type="button" onClick={reset} className="bn-ghost">Cancel</button>
+                        <button type="button" onClick={reset} className="bn-ghost">
+                            Cancel
+                        </button>
                     )}
                 </div>
             </form>
@@ -322,11 +311,15 @@ export default function Banners() {
                         dangerouslySetInnerHTML={{ __html: b.content }}
                     />
                     <div className="bn-actions">
-                        <button onClick={() => edit(b)} className="bn-ghost">Edit</button>
+                        <button onClick={() => edit(b)} className="bn-ghost">
+                            Edit
+                        </button>
                         <button onClick={() => toggle(b)} className="bn-ghost">
                             {b.status === "active" ? "Deactivate" : "Activate"}
                         </button>
-                        <button onClick={() => remove(b)} className="bn-danger">Delete</button>
+                        <button onClick={() => remove(b)} className="bn-danger">
+                            Delete
+                        </button>
                     </div>
                 </div>
             ))}
