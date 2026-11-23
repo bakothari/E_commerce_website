@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { ClassicEditor } from "ckeditor5";
+import "ckeditor5/ckeditor5.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Banner.css";
@@ -9,7 +10,17 @@ import api from "./api/axios"
 
 const API = "/admin/banners";
 const HEIGHTS = { small: 100, medium: 160, big: 240, hero: 320 };
-
+import {
+    ClassicEditor,
+    Essentials,
+    Paragraph,
+    Bold,
+    Italic,
+    Heading,
+    Link,
+    List,
+    BlockQuote
+} from "ckeditor5";
 const empty = {
     name: "",
     type: "text",
@@ -53,7 +64,7 @@ export default function Banners() {
     async function load() {
         try {
             const { data } = await api.get(API, authHeader());
-            setBanners(data.banners);
+            setBanners(data.banners||[]);
         } catch (err) {
             toast.error(err.response?.data?.message || "Could not load banners");
         }
@@ -71,8 +82,8 @@ export default function Banners() {
         try {
             setSaving(true);
             const res = editingId
-                ? await axios.put(`${API}/${editingId}`, form, authHeader())
-                : await axios.post(API, form, authHeader());
+                ? await api.put(`${API}/${editingId}`, form, authHeader())
+                : await api.post(API, form, authHeader());
             toast.success(res.data.message);
             reset();
             load();
@@ -210,10 +221,28 @@ export default function Banners() {
                         editor={ClassicEditor}
                         data={form.content}
                         config={{
-                            toolbar: [
-                                "heading", "|", "bold", "italic", "link",
-                                "bulletedList", "numberedList", "blockQuote", "|", "undo", "redo",
+                            licenseKey: "GPL",
+                            plugins: [
+                                Essentials,
+                                Paragraph,
+                                Bold,
+                                Italic,
+                                Heading,
+                                Link,
+                                List,
+                                BlockQuote
                             ],
+                            toolbar: [
+                                "heading", "|",
+                                "bold",
+                                "italic",
+                                "link", "|",
+                                "bulletedList",
+                                "numberedList",
+                                "blockQuote", "|",
+                                "undo",
+                                "redo"
+                            ]
                         }}
                         onChange={(_, editor) => set("content", editor.getData())}
                     />
