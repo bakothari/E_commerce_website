@@ -93,7 +93,7 @@ function Signup() {
 
             if (response.data.message === "signup succesful") {
                 toast.success("Account created! Redirecting...");
-                setTimeout(() => window.location.href = "http://localhost:3000");
+                setTimeout(() => window.location.href = "https://ecommercewebsite-frontend.vercel.app/");
             } else {
                 toast.error(response.data.message || "Signup failed");
             }
