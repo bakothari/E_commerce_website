@@ -135,7 +135,7 @@ const Product = () => {
   const editbutton = async (id) => {
     let token = localStorage.getItem("token");
     try {
-      let response = await api.get(`/${id}`,
+      let response = await api.get(`/product/get/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -171,7 +171,7 @@ const Product = () => {
   const deletebbutton = async (id) => {
     let token = localStorage.getItem("token");
     try {
-      let response = await api.delete(`/${id}`,
+      let response = await api.delete(`/product/delete/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -189,7 +189,7 @@ const Product = () => {
   const viewbutton = async (id) => {
     let token = localStorage.getItem("token");
     try {
-      let response = await api.get(`/${id}`,
+      let response = await api.get(`/product/view/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
