@@ -116,7 +116,7 @@ function Login() {
                     token,
                     user: JSON.stringify(user || { role: roleName }),
                 });
-                window.location.href = `${import.meta.env.VITE_STORE_URL}/auth/callback?${params}`;
+                window.location.href = `https://ecommercewebsite-frontend.vercel.app/auth/callback?${params}`;
             } else {
                 // staff/admin stay in this app, so save to this origin's localStorage
                 localStorage.setItem("token", token);
